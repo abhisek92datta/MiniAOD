@@ -113,7 +113,8 @@ namespace electronID{
       electronLooseMvaBased, electronTightMvaBased,
       electron2lss,
       electronSpring15Veto, electronSpring15L, electronSpring15M, electronSpring15T,
-      electronEndOf15MVA80, electronEndOf15MVA90, electronEndOf15MVA80iso0p1, electronEndOf15MVA80iso0p15, electronEndOf15MVA90iso0p1, electronEndOf15MVA90iso0p15
+      electronEndOf15MVA80, electronEndOf15MVA90, electronEndOf15MVA80iso0p1, electronEndOf15MVA80iso0p15, electronEndOf15MVA90iso0p1, electronEndOf15MVA90iso0p15,
+      electron80XCutBasedL,electron80XCutBasedM,electron80XCutBasedT
    };
 }
 namespace hdecayType{	enum hdecayType{ hbb, hcc, hww, hzz, htt, hgg, hjj, hzg }; }
@@ -200,6 +201,9 @@ class MiniAODHelper{
   bool PassElectronPhys14Id(const pat::Electron&, const electronID::electronID) const;
   bool PassElectronSpring15Id(const pat::Electron&, const electronID::electronID) const;
   vector<pat::Electron> GetElectronsWithMVAid(edm::Handle<edm::View<pat::Electron> > electrons, edm::Handle<edm::ValueMap<float> > mvaValues, edm::Handle<edm::ValueMap<int> > mvaCategories) const;
+  
+  bool PassElectron80XId(const pat::Electron&, const electronID::electronID) const;
+  
   bool InECALbarrel(const pat::Electron&) const;
   bool InECALendcap(const pat::Electron&) const;
   bool PassesMVAidPreselection(const pat::Electron&) const;
