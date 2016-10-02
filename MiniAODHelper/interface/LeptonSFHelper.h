@@ -43,9 +43,11 @@ class LeptonSFHelper {
   TH2F *h_ele_ISO_abseta_pt_ratio;
 
   TH2F *h_mu_ID_abseta_pt_ratio;
+  TH2F *h_mu_TRIGGER_abseta_pt_ratio;
   TH2F *h_mu_TRIGGER_abseta_pt_ratio4p3;
   TH2F *h_mu_TRIGGER_abseta_pt_ratio4p2;
   TH2F *h_mu_ISO_abseta_pt_ratio;
+  TH1D *h_mu_HIP_eta_ratio;
   
   TH2F *h_ele_ele_TRIGGER_abseta_abseta;
   TH2F *h_mu_mu_TRIGGER_abseta_abseta;
@@ -53,6 +55,8 @@ class LeptonSFHelper {
 
   float electronMaxPt;
   float muonMaxPt;
+  float electronMaxPt_High;
+  float muonMaxPt_High;
 
 
 };

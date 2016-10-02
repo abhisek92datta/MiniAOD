@@ -1063,6 +1063,16 @@ MiniAODHelper::isGoodElectron(const pat::Electron& iElectron, const float iMinPt
     passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
     passesIso=0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
     break;
+  case electronID::electronNonTrigMVAid80:
+    passesID = PassesNonTrigMVAid80(iElectron);
+    passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
+    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
+    break;
+  case electronID::electronNonTrigMVAid90:
+    passesID = PassesNonTrigMVAid90(iElectron);
+    passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
+    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
+	break;
     
   }
 
@@ -1969,19 +1979,22 @@ bool MiniAODHelper::PassesMVAidPreselection(const pat::Electron& iElectron) cons
     else return false;
 }
 // returns true if electron passes above preselection and the cut corresponding to the electron-category (0: eta<0.8, 1: 0.8<eta<1.4442, 2: 1.5560<eta)
-bool MiniAODHelper::PassesMVAidCuts(const pat::Electron& el, float cut0, float cut1, float cut2) const{
+bool MiniAODHelper::PassesMVAidCuts(const pat::Electron& el, float cut0, float cut1, float cut2, bool b_requirePreselection) const{
     if(!el.hasUserFloat("mvaValue") || !el.hasUserInt("mvaCategory")) {
 	std::cout << "mvaValue or category not set, run MiniAODHelper::AddMVAidToElectrons first" << std::endl;
 	return false;
     }
-    if(!PassesMVAidPreselection(el)) return false;
+    if( b_requirePreselection && !PassesMVAidPreselection(el)) return false;
     bool pass=false;
     int category =el.userInt("mvaCategory");
     float value= el.userFloat("mvaValue");
     switch(category){
-        case 0: pass=value>cut0; break;
-        case 1: pass=value>cut1; break;
-        case 2: pass=value>cut2; break;
+        case 0: pass=false; break;
+		case 1: pass=false; break;
+		case 2: pass=false; break;
+        case 3: pass=value>cut0; break;
+        case 4: pass=value>cut1; break;
+		case 5: pass=value>cut2; break;
         default: std::cout << "unkown electron mva category" << std::endl;
     }
     return pass;
@@ -1994,6 +2007,16 @@ bool MiniAODHelper::PassesMVAid80(const pat::Electron& el) const{
 
 bool MiniAODHelper::PassesMVAid90(const pat::Electron& el) const{
     return PassesMVAidCuts(el,0.972153,0.922126,0.610764);
+}
+
+bool MiniAODHelper::PassesNonTrigMVAid80(const pat::Electron& el) const{
+  const bool DO_NOT_REQUIRE_PRESELECTION = false;
+  return PassesMVAidCuts(el,0.967083,0.929117,0.726311, DO_NOT_REQUIRE_PRESELECTION );// Values from : https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2?rev=26
+}
+
+bool MiniAODHelper::PassesNonTrigMVAid90(const pat::Electron& el) const{
+  const bool DO_NOT_REQUIRE_PRESELECTION = false;
+  return PassesMVAidCuts(el,0.913286, 0.805013, 0.358969, DO_NOT_REQUIRE_PRESELECTION ); // Values from : https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2?rev=26
 }
 
 void MiniAODHelper::addVetos(const reco::Candidate &cand) {
