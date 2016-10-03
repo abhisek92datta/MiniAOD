@@ -201,11 +201,27 @@ float LeptonSFHelper::GetElectronSF(  float electronPt , float electronEta , int
     downval=nomval-error;
     
     if(nomval==0) {
-    	thisBin = h_ele_ISO_abseta_pt_ratio->FindBin( searchEta , 20.001 );
+    	thisBin = h_ele_ISO_abseta_pt_ratio->FindBin( searchEta , 10.001 );
     	nomval=h_ele_ISO_abseta_pt_ratio->GetBinContent( thisBin );
     }
 
   }
+  
+  else if ( type == "Gsf" ){
+
+    thisBin = h_ele_GSF_abseta_pt_ratio->FindBin( searchEta , searchPt );
+    nomval=h_ele_GSF_abseta_pt_ratio->GetBinContent( thisBin );
+    error=h_ele_GSF_abseta_pt_ratio->GetBinError( thisBin );
+    upval=nomval+error;
+    downval=nomval-error;
+    
+    if(nomval==0) {
+    	thisBin = h_ele_GSF_abseta_pt_ratio->FindBin( searchEta , 20.001 );
+    	nomval=h_ele_GSF_abseta_pt_ratio->GetBinContent( thisBin );
+    }
+
+  }
+  
   else {
 
     std::cout << "Unknown Type. Supported Types are: ID, Trigger, Iso" << std::endl;
@@ -386,16 +402,18 @@ void LeptonSFHelper::SetElectronHistos( ){
   std::string IDinputFile = std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/leptonSF/" + "eleID_nonTrigMVA_80X_WP80.root";
   //std::string TRIGGERinputFile = std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/leptonSF/" + "eleTrig_SF.root";
   std::string TRIGGERinputFile = std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/leptonSF/ElTriggerPerformance_Sep27.root";
-  //std::string ISOinputFile = std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/leptonSF/" + "eleRECO.txt.egamma_SF2D.root";
-  std::string ISOinputFile = std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/leptonSF/" + "egammaEffi_Gsf_tracking.txt_SF2D.root";
+  std::string GSFinputFile = std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/leptonSF/" + "egammaEffi_Gsf_tracking.txt_SF2D.root";
+  std::string ISOinputFile = std::string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/leptonSF/" + "eleRECO.txt.egamma_SF2D.root";
 
   TFile *f_IDSF = new TFile(std::string(IDinputFile).c_str(),"READ");
   TFile *f_TRIGGERSF = new TFile(std::string(TRIGGERinputFile).c_str(),"READ");
+  TFile *f_GSFSF = new TFile(std::string(GSFinputFile).c_str(),"READ");
   TFile *f_ISOSF = new TFile(std::string(ISOinputFile).c_str(),"READ");
 
   h_ele_ID_abseta_pt_ratio = (TH2F*)f_IDSF->Get("EGamma_SF2D");
   //h_ele_TRIGGER_abseta_pt_ratio = (TH2F*)f_TRIGGERSF->Get("h_eleTrig_SF");
   h_ele_TRIGGER_abseta_pt_ratio = (TH2F*)f_TRIGGERSF->Get("electrontrig_sf_eta_pt");
+  h_ele_GSF_abseta_pt_ratio = (TH2F*)f_GSFSF->Get("EGamma_SF2D");
   h_ele_ISO_abseta_pt_ratio = (TH2F*)f_ISOSF->Get("EGamma_SF2D");
 
 }
