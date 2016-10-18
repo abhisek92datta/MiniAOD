@@ -61,6 +61,7 @@
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "TH1.h"
+#include "TRandom3.h"
 
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
@@ -105,7 +106,7 @@ class SkimDilep : public edm::EDFilter {
   // std::string hltTag;
   // std::string filterTag;
 
-
+  TRandom3 *r;
   MiniAODHelper miniAODhelper;
 };
 
@@ -147,6 +148,7 @@ SkimDilep::SkimDilep(const edm::ParameterSet& iConfig)
   analysisType::analysisType iAnalysisType = analysisType::LJ;
   bool isData = true;
 
+  r = new TRandom3(1);
   miniAODhelper.SetUp(era, insample, iAnalysisType, isData);
 
 }
@@ -157,7 +159,7 @@ SkimDilep::~SkimDilep()
  
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
-
+   r->SetSeed(0);
 }
 
 
@@ -283,7 +285,7 @@ SkimDilep::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
   std::vector<pat::Jet> rawJets = miniAODhelper.GetUncorrectedJets(*pfjets);
   std::vector<pat::Jet> jetsNoMu = miniAODhelper.RemoveOverlaps(selectedMuonsLoose, rawJets);
   std::vector<pat::Jet> jetsNoEle = miniAODhelper.RemoveOverlaps(selectedElectronsLoose, jetsNoMu);
-  std::vector<pat::Jet> correctedJets = miniAODhelper.GetCorrectedJets(jetsNoEle, iEvent, iSetup, genjets);
+  std::vector<pat::Jet> correctedJets = miniAODhelper.GetCorrectedJets(jetsNoEle, iEvent, iSetup, genjets,r);
   std::vector<pat::Jet> cleanSelectedJets = miniAODhelper.GetSelectedJets(correctedJets, 15., 2.4, jetID::jetLoose, '-' ); // pt set to 15GeV
 
   // at least two jets
