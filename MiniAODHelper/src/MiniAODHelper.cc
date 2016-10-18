@@ -723,7 +723,7 @@ MiniAODHelper::GetCorrectedBoostedJets(const std::vector<boosted::BoostedJet>& i
   for( std::vector<boosted::BoostedJet>::const_iterator it = inputBoostedJets.begin(), ed = inputBoostedJets.end(); it != ed; ++it ){
     boosted::BoostedJet outputBoostedJet = *it;
 
-    outputBoostedJet.fatjet = GetCorrectedAK8Jet(outputBoostedJet.fatjet,event,setup,genjets,iSysType,doJES,false,corrFactor,uncFactor);
+    outputBoostedJet.fatjet = GetCorrectedAK8Jet(outputBoostedJet.fatjet,event,setup,genjets,r,iSysType,doJES,false,corrFactor,uncFactor);
 
     outputBoostedJet.nonW = GetCorrectedJet(outputBoostedJet.nonW,event,setup,genjets,r,iSysType,doJES,doJER,corrFactor,uncFactor);
     outputBoostedJet.W1   = GetCorrectedJet(outputBoostedJet.W1  ,event,setup,genjets,r,iSysType,doJES,doJER,corrFactor,uncFactor);
@@ -735,7 +735,7 @@ MiniAODHelper::GetCorrectedBoostedJets(const std::vector<boosted::BoostedJet>& i
     outputBoostedJet.topjet.setP4(outputBoostedJet.nonW.p4()+outputBoostedJet.W1.p4()+outputBoostedJet.W2.p4());
 
     // Correction of pruned mass
-    outputBoostedJet.prunedMass = outputBoostedJet.prunedMass * GetAK8JetCorrectionFactor(outputBoostedJet.fatjet,event,setup,genjets,iSysType,doJES,false,corrFactor,uncFactor);
+    outputBoostedJet.prunedMass = outputBoostedJet.prunedMass * GetAK8JetCorrectionFactor(outputBoostedJet.fatjet,event,setup,genjets,r,iSysType,doJES,false,corrFactor,uncFactor);
 
     // Recalculation of fRec
     double _mtmass = 172.3;
