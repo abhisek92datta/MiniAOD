@@ -187,6 +187,7 @@ class MiniAODAnalyzer : public edm::EDAnalyzer {
 
   TH2D* h_jetPt_cleanjetPt;
 
+  TRandom3 *r;
   MiniAODHelper miniAODhelper;
 };
 
@@ -321,6 +322,7 @@ MiniAODAnalyzer::MiniAODAnalyzer(const edm::ParameterSet& iConfig)
   analysisType::analysisType iAnalysisType = analysisType::LJ;
   bool isData = true;
 
+  r = new TRandom3(1);
   miniAODhelper.SetUp(era, insample, iAnalysisType, isData);
 
 }
@@ -331,7 +333,7 @@ MiniAODAnalyzer::~MiniAODAnalyzer()
  
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
-
+   r->SetSeed(0);
 }
 
 
@@ -761,7 +763,7 @@ MiniAODAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
   std::vector<pat::Jet> rawJets = miniAODhelper.GetUncorrectedJets(*pfjets);
   std::vector<pat::Jet> jetsNoMu = miniAODhelper.RemoveOverlaps(selectedMuons, rawJets);
   std::vector<pat::Jet> jetsNoEle = miniAODhelper.RemoveOverlaps(selectedElectrons, jetsNoMu);
-  std::vector<pat::Jet> correctedJets = miniAODhelper.GetCorrectedJets(jetsNoEle, iEvent, iSetup, genjets);
+  std::vector<pat::Jet> correctedJets = miniAODhelper.GetCorrectedJets(jetsNoEle, iEvent, iSetup, genjets, r);
   std::vector<pat::Jet> cleanSelectedJets = miniAODhelper.GetSelectedJets(correctedJets, 30., 2.4, jetID::jetLoose, '-' );
 
   int nJet = 0;
