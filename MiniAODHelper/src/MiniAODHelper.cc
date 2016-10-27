@@ -416,12 +416,12 @@ MiniAODHelper::GetCorrectedJet(const pat::Jet& inputJet, const edm::Event& event
       // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
     }
     // else     std::cout << "    ==> can't find genJet" << std::endl;
-    /*
+    
     else {
     	 jerSF = r->Gaus();
 		 r->SetSeed(1);
     }
-    */
+    
     outputJet.scaleEnergy( jerSF*corrFactor );
   }
 
@@ -489,12 +489,12 @@ MiniAODHelper::GetJetCorrectionFactor(const pat::Jet& inputJet, const edm::Event
       // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
     }
     // else     std::cout << "    ==> can't find genJet" << std::endl;
-    /*
+    
     else {
     	 jerSF = r->Gaus();
 		 r->SetSeed(1);
     }
-    */
+    
     outputJet.scaleEnergy( jerSF*corrFactor );
     factor *= jerSF*corrFactor;
   }
@@ -558,12 +558,12 @@ MiniAODHelper::GetCorrectedAK8Jet(const pat::Jet& inputJet, const edm::Event& ev
       // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
     }
     // else     std::cout << "    ==> can't find genJet" << std::endl;
-    /*
+    
     else {
     	 jerSF = r->Gaus();
 		 r->SetSeed(1);
     }
-    */
+    
     outputJet.scaleEnergy( jerSF*corrFactor );
   }
 
@@ -630,12 +630,12 @@ MiniAODHelper::GetAK8JetCorrectionFactor(const pat::Jet& inputJet, const edm::Ev
       // std::cout << "----->checking gen Jet pt " << jet.genJet()->pt() << ",  jerSF is" << jerSF << std::endl;
     }
     // else     std::cout << "    ==> can't find genJet" << std::endl;
-    /*
+    
     else {
     	 jerSF = r->Gaus();
 		 r->SetSeed(1);
     }
-    */
+    
     outputJet.scaleEnergy( jerSF*corrFactor );
     factor *= jerSF*corrFactor;
   }
