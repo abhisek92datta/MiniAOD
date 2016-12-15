@@ -276,14 +276,14 @@ MiniAODHelper::GetSelectedMuons(const std::vector<pat::Muon>& inputMuons, const 
 
 
 std::vector<pat::Electron>
-MiniAODHelper::GetSelectedElectrons(const std::vector<pat::Electron>& inputElectrons, const float iMinPt, const electronID::electronID iElectronID, const edm::Handle<edm::ValueMap<bool>>& medium_id_decisions, const float iMaxEta){
+MiniAODHelper::GetSelectedElectrons(const std::vector<pat::Electron>& inputElectrons, const float iMinPt, const electronID::electronID iElectronID, const float iMaxEta){
 
   CheckSetUp();
 
   std::vector<pat::Electron> selectedElectrons;
 
   for( std::vector<pat::Electron>::const_iterator it = inputElectrons.begin(), ed = inputElectrons.end(); it != ed; ++it ){
-    if( isGoodElectron(*it,iMinPt,iMaxEta,iElectronID,medium_id_decisions) ) selectedElectrons.push_back(*it);
+    if( isGoodElectron(*it,iMinPt,iMaxEta,iElectronID) ) selectedElectrons.push_back(*it);
   }
 
   return selectedElectrons;
@@ -940,7 +940,7 @@ MiniAODHelper::isGoodMuon(const pat::Muon& iMuon, const float iMinPt, const floa
 
 
 bool
-MiniAODHelper::isGoodElectron(const pat::Electron& iElectron, const float iMinPt, const float iMaxEta,const electronID::electronID iElectronID,  const edm::Handle<edm::ValueMap<bool> >& medium_id_decisions){
+MiniAODHelper::isGoodElectron(const pat::Electron& iElectron, const float iMinPt, const float iMaxEta,const electronID::electronID iElectronID){
 
   CheckVertexSetUp();
 
@@ -1094,7 +1094,9 @@ MiniAODHelper::isGoodElectron(const pat::Electron& iElectron, const float iMinPt
     passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
 	break;
   case electronID::electronGenPurposeMVAid80:
-    passesID = (*medium_id_decisions)[&iElectron];
+    //const auto el = & iElectron;
+    //passesID = (medium_id_decisions)[el];
+    passesID=1;
     passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
     passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
     break;
