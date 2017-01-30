@@ -1082,7 +1082,7 @@ MiniAODHelper::isGoodElectron(const pat::Electron& iElectron, const float iMinPt
   case electronID::electron80XCutBasedM:
     passesID = PassElectron80XId(iElectron,iElectronID);
     passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
-    passesIso=0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::summer16);
+    //passesIso=0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::summer16);
     break;
   case electronID::electronNonTrigMVAid80:
     passesID = PassesNonTrigMVAid80(iElectron);
@@ -1568,7 +1568,7 @@ bool MiniAODHelper::PassElectron80XId(const pat::Electron& iElectron, const elec
 
   double SCeta = (iElectron.superCluster().isAvailable()) ? iElectron.superCluster()->position().eta() : -99;
   double absSCeta = fabs(SCeta);
-  double relIso = GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA);
+  double relIso = GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA, effAreaType::summer16);
 
   bool isEB = ( absSCeta < 1.479 );
 
@@ -1584,12 +1584,12 @@ bool MiniAODHelper::PassElectron80XId(const pat::Electron& iElectron, const elec
   else if( !std::isfinite(iElectron.ecalEnergy()) ) ooEmooP = 1e30;
   else ooEmooP = fabs(1.0/iElectron.ecalEnergy() - iElectron.eSuperClusterOverP()/iElectron.ecalEnergy() );
 
-//   double d0 = -999;
-//   double dZ = -999;
+   double d0 = -999;
+   double dZ = -999;
   double expectedMissingInnerHits = 999;
   if( iElectron.gsfTrack().isAvailable() ){
-//     d0 = fabs(iElectron.gsfTrack()->dxy(vertex.position()));
-//     dZ = fabs(iElectron.gsfTrack()->dz(vertex.position()));
+     d0 = fabs(iElectron.gsfTrack()->dxy(vertex.position()));
+     dZ = fabs(iElectron.gsfTrack()->dz(vertex.position()));
     expectedMissingInnerHits = iElectron.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
   }
 
@@ -1634,6 +1634,8 @@ bool MiniAODHelper::PassElectron80XId(const pat::Electron& iElectron, const elec
 	       ooEmooP < 0.134 &&
 // 	       d0 < 0.035904 &&
 // 	       dZ < 0.075496 &&
+           d0 < 0.05 &&
+           dZ < 0.1 &&
 	       expectedMissingInnerHits <= 1 &&
 	       passConversionVeto &&
 	       relIso < 0.0695
@@ -1647,6 +1649,8 @@ bool MiniAODHelper::PassElectron80XId(const pat::Electron& iElectron, const elec
 	       ooEmooP < 0.13 &&
 // 	       d0 < 0.035904 &&
 // 	       dZ < 0.075496 &&
+           d0 < 0.1 &&
+           dZ < 0.2 &&
 	       expectedMissingInnerHits <= 1 &&
 	       passConversionVeto &&
 	       relIso < 0.0821
