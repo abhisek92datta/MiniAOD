@@ -1082,24 +1082,24 @@ MiniAODHelper::isGoodElectron(const pat::Electron& iElectron, const float iMinPt
   case electronID::electron80XCutBasedM:
     passesID = PassElectron80XId(iElectron,iElectronID);
     passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
-    passesIso=0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
+    passesIso=0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::summer16);
     break;
   case electronID::electronNonTrigMVAid80:
     passesID = PassesNonTrigMVAid80(iElectron);
     passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
-    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
+    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::summer16);
     break;
   case electronID::electronNonTrigMVAid90:
     passesID = PassesNonTrigMVAid90(iElectron);
     passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
-    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
+    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::summer16);
 	break;
   case electronID::electronGenPurposeMVAid80:
     //const auto el = & iElectron;
     //passesID = (medium_id_decisions)[el];
     passesID=1;
     passesKinematics = ((iElectron.pt() >= minElectronPt) && (fabs(iElectron.eta()) <= maxElectronEta) && !inCrack);
-    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::spring15);
+    passesIso = 0.15>=GetElectronRelIso(iElectron, coneSize::R03, corrType::rhoEA,effAreaType::summer16);
     break;
     
   }
@@ -1426,6 +1426,15 @@ float MiniAODHelper::GetElectronRelIso(const pat::Electron& iElectron,const cone
 	    else if (Eta >= 2.3 && Eta < 2.4) EffArea = 0.2243;
 	    else if (Eta >= 2.4 && Eta < 2.5) EffArea = 0.2687;
 	  }
+      else if (ieffAreaType==effAreaType::summer16){
+          if (Eta >= 0. && Eta < 1.0) EffArea = 0.1703;
+          else if (Eta >= 1.0 && Eta < 1.479) EffArea = 0.1715;
+          else if (Eta >= 1.479 && Eta < 2.0) EffArea = 0.1213;
+          else if (Eta >= 2.0 && Eta < 2.2) EffArea = 0.1230;
+          else if (Eta >= 2.2 && Eta < 2.3) EffArea = 0.1635;
+          else if (Eta >= 2.3 && Eta < 2.4) EffArea = 0.1937;
+          else if (Eta >= 2.4 && Eta < 5.0) EffArea = 0.2393;
+      }
 	  if(!rhoIsSet) std::cout << " !! ERROR !! Trying to get rhoEffArea correction without setting rho" << std::endl;
 	  correction = useRho*EffArea;
 	  break;
@@ -1476,6 +1485,15 @@ float MiniAODHelper::GetElectronRelIso(const pat::Electron& iElectron,const cone
 	      else if (Eta >= 2.3 && Eta < 2.4) EffArea = 0.2243;
 	      else if (Eta >= 2.4 && Eta < 2.5) EffArea = 0.2687;
 	    }
+      else if (ieffAreaType==effAreaType::summer16){
+          if (Eta >= 0. && Eta < 1.0) EffArea = 0.1703;
+          else if (Eta >= 1.0 && Eta < 1.479) EffArea = 0.1715;
+          else if (Eta >= 1.479 && Eta < 2.0) EffArea = 0.1213;
+          else if (Eta >= 2.0 && Eta < 2.2) EffArea = 0.1230;
+          else if (Eta >= 2.2 && Eta < 2.3) EffArea = 0.1635;
+          else if (Eta >= 2.3 && Eta < 2.4) EffArea = 0.1937;
+          else if (Eta >= 2.4 && Eta < 5.0) EffArea = 0.2393;
+      }
 
 	  if(!rhoIsSet) std::cout << " !! ERROR !! Trying to get rhoEffArea correction without setting rho" << std::endl;
 	  correction = useRho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
