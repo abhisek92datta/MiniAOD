@@ -419,8 +419,9 @@ MiniAODHelper::GetCorrectedJet(const pat::Jet& inputJet, const edm::Event& event
     // else     std::cout << "    ==> can't find genJet" << std::endl;
     
     else {
-    	 jerSF = r->Gaus();
-		 r->SetSeed(1);
+    	 //jerSF = r->Gaus();
+	//	 r->SetSeed(1);
+	jerSF = 1;
     }
     
     outputJet.scaleEnergy( jerSF*corrFactor );
@@ -2690,45 +2691,59 @@ double MiniAODHelper::getJERfactor( const int returnType, const double jetAbsETA
   double scale_JER = 1., scale_JERup = 1., scale_JERdown = 1.;
   double extrauncertainty=1.5;
   //// nominal SFs have changed since run1, and the new up/down SFs are still unknown???
-  if( jetAbsETA<0.5 ){
-    scale_JER = 1.122; scale_JERup = 1.122 + 0.026*extrauncertainty; scale_JERdown = 1.122 - 0.026*extrauncertainty;
-  }
-  else if( jetAbsETA<0.8 ){
-    scale_JER = 1.167; scale_JERup = 1.167 + 0.048*extrauncertainty; scale_JERdown = 1.167 - 0.048*extrauncertainty;
-  }
-  else if( jetAbsETA<1.1 ){
-    scale_JER = 1.168; scale_JERup = 1.168 + 0.046*extrauncertainty; scale_JERdown = 1.168 - 0.046*extrauncertainty;
-  }
-  else if( jetAbsETA<1.3 ){
-    scale_JER = 1.029; scale_JERup = 1.029 + 0.066*extrauncertainty; scale_JERdown = 1.029 - 0.066*extrauncertainty;
-  }
-  else if( jetAbsETA<1.7 ){
-    scale_JER = 1.115; scale_JERup = 1.115 + 0.030*extrauncertainty; scale_JERdown = 1.115 - 0.030*extrauncertainty;
-  }
-  else if( jetAbsETA<1.9 ){
-    scale_JER = 1.041; scale_JERup = 1.041 + 0.062*extrauncertainty; scale_JERdown = 1.041 - 0.062*extrauncertainty;
-  }
-  else if( jetAbsETA<2.1 ){
-    scale_JER = 1.167; scale_JERup = 1.167 + 0.086*extrauncertainty; scale_JERdown = 1.167 - 0.086*extrauncertainty;
-  }
-  else if( jetAbsETA<2.3 ){
-    scale_JER = 1.094; scale_JERup = 1.094 + 0.093*extrauncertainty; scale_JERdown = 1.094 - 0.093*extrauncertainty;
-  }
-  else if( jetAbsETA<2.5 ){
-    scale_JER = 1.168; scale_JERup = 1.168 + 0.120*extrauncertainty; scale_JERdown = 1.168 - 0.120*extrauncertainty;
-  }
-  else if( jetAbsETA<2.8 ){
-    scale_JER = 1.266; scale_JERup = 1.266 + 0.132*extrauncertainty; scale_JERdown = 1.266 - 0.132*extrauncertainty;
-  }
-  else if( jetAbsETA<3.0 ){
-    scale_JER = 1.595; scale_JERup = 1.595 + 0.175*extrauncertainty; scale_JERdown = 1.595 - 0.175*extrauncertainty;
-  }
-  else if( jetAbsETA<3.2 ){
-    scale_JER = 0.998; scale_JERup = 0.998 + 0.066*extrauncertainty; scale_JERdown = 0.998 - 0.066*extrauncertainty;
-  }
-  else if( jetAbsETA<5.0 ){
-    scale_JER = 1.226; scale_JERup = 1.226 + 0.145*extrauncertainty; scale_JERdown = 1.226 - 0.145*extrauncertainty;
-  }
+  if (jetAbsETA < 0.5) {
+        scale_JER = 1.109;
+        scale_JERup = 1.109 + 0.008 * extrauncertainty;
+        scale_JERdown = 1.109 - 0.008 * extrauncertainty;
+    } else if (jetAbsETA < 0.8) {
+        scale_JER = 1.138;
+        scale_JERup = 1.138 + 0.013 * extrauncertainty;
+        scale_JERdown = 1.138 - 0.013 * extrauncertainty;
+    } else if (jetAbsETA < 1.1) {
+        scale_JER = 1.114;
+        scale_JERup = 1.114 + 0.013 * extrauncertainty;
+        scale_JERdown = 1.114 - 0.013 * extrauncertainty;
+    } else if (jetAbsETA < 1.3) {
+        scale_JER = 1.123;
+        scale_JERup = 1.123 + 0.024 * extrauncertainty;
+        scale_JERdown = 1.123 - 0.024 * extrauncertainty;
+    } else if (jetAbsETA < 1.7) {
+        scale_JER = 1.084;
+        scale_JERup = 1.084 + 0.011 * extrauncertainty;
+        scale_JERdown = 1.084 - 0.011 * extrauncertainty;
+    } else if (jetAbsETA < 1.9) {
+        scale_JER = 1.082;
+        scale_JERup = 1.082 + 0.035 * extrauncertainty;
+        scale_JERdown = 1.082 - 0.035 * extrauncertainty;
+    } else if (jetAbsETA < 2.1) {
+        scale_JER = 1.140;
+        scale_JERup = 1.140 + 0.047 * extrauncertainty;
+        scale_JERdown = 1.140 - 0.047 * extrauncertainty;
+    } else if (jetAbsETA < 2.3) {
+        scale_JER = 1.067;
+        scale_JERup = 1.067 + 0.053 * extrauncertainty;
+        scale_JERdown = 1.067 - 0.053 * extrauncertainty;
+    } else if (jetAbsETA < 2.5) {
+        scale_JER = 1.177;
+        scale_JERup = 1.177 + 0.041 * extrauncertainty;
+        scale_JERdown = 1.177 - 0.041 * extrauncertainty;
+    } else if (jetAbsETA < 2.8) {
+        scale_JER = 1.364;
+        scale_JERup = 1.364 + 0.039 * extrauncertainty;
+        scale_JERdown = 1.364 - 0.039 * extrauncertainty;
+    } else if (jetAbsETA < 3.0) {
+        scale_JER = 1.857;
+        scale_JERup = 1.857 + 0.071 * extrauncertainty;
+        scale_JERdown = 1.857 - 0.071 * extrauncertainty;
+    } else if (jetAbsETA < 3.2) {
+        scale_JER = 1.328;
+        scale_JERup = 1.328 + 0.022 * extrauncertainty;
+        scale_JERdown = 1.328 - 0.022 * extrauncertainty;
+    } else if (jetAbsETA < 4.7) {
+        scale_JER = 1.160;
+        scale_JERup = 1.160 + 0.029 * extrauncertainty;
+        scale_JERdown = 1.160 - 0.029 * extrauncertainty;
+    }
 
   double jetPt_JER = recojetPT;
   double jetPt_JERup = recojetPT;
