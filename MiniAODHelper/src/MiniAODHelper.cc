@@ -23,7 +23,7 @@ MiniAODHelper::MiniAODHelper(){
 
   { //  JER preparation
 
-    std::string JER_file =  string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Spring16_25nsV6_MC_PtResolution_AK4PFchs.txt" ;
+    std::string JER_file =  string(getenv("CMSSW_BASE")) + "/src/MiniAOD/MiniAODHelper/data/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt" ;
     std::ifstream infile( JER_file); 
     if( ! infile ){
       std::cerr << "Error: cannot open file(" << JER_file << ")" << endl;
