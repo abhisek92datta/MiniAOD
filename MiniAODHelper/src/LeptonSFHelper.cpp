@@ -13,7 +13,7 @@ LeptonSFHelper::LeptonSFHelper( ){
 
   electronMaxPt = 149.99;
   muonMaxPt = 119.99;
-  electronMaxPt_High = 199.99;
+  electronMaxPt_High = 200.01;
   muonMaxPt_High = 499.99;
 
 }
