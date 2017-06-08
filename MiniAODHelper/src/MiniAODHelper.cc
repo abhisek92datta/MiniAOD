@@ -1396,8 +1396,9 @@ float MiniAODHelper::GetElectronRelIso(const pat::Electron& iElectron,const cone
 
   double correction = 9999.;
   double EffArea = 9999.;
-  double Eta = abs(iElectron.eta());
-
+  //double Eta = abs(iElectron.eta());
+  double Eta = abs(iElectron.superCluster()->position().eta());
+	
   double pfIsoCharged;
   double pfIsoNeutral;
   double pfIsoPUSubtracted;
