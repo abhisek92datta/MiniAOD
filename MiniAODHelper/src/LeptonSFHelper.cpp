@@ -171,7 +171,7 @@ float LeptonSFHelper::GetElectronSF(  float electronPt , float electronEta , int
     downval=nomval-error;
     
     if(nomval==0) {
-    	thisBin = h_ele_ID_abseta_pt_ratio->FindBin( searchEta , 20.001 );
+    	thisBin = h_ele_ID_abseta_pt_ratio->FindBin( searchEta , 10.001 );
     	nomval=h_ele_ID_abseta_pt_ratio->GetBinContent( thisBin );
     }
 
@@ -187,7 +187,7 @@ float LeptonSFHelper::GetElectronSF(  float electronPt , float electronEta , int
     downval=nomval-error;
     
     if(nomval==0) {
-    	thisBin = h_ele_TRIGGER_abseta_pt_ratio->FindBin( 30.001, searchEta );
+    	thisBin = h_ele_TRIGGER_abseta_pt_ratio->FindBin( 25.001, searchEta );
     	nomval=h_ele_TRIGGER_abseta_pt_ratio->GetBinContent( thisBin );
     }
 
@@ -201,7 +201,7 @@ float LeptonSFHelper::GetElectronSF(  float electronPt , float electronEta , int
     downval=nomval-error;
     
     if(nomval==0) {
-    	thisBin = h_ele_ISO_abseta_pt_ratio->FindBin( searchEta , 10.001 );
+    	thisBin = h_ele_ISO_abseta_pt_ratio->FindBin( searchEta , 25.001 );
     	nomval=h_ele_ISO_abseta_pt_ratio->GetBinContent( thisBin );
     }
 
@@ -316,7 +316,7 @@ float LeptonSFHelper::GetMuonSF(  float muonPt , float muonEta , int syst , std:
     //downval=downval*(1.0-0.005);
     
     if(nomval==0) {
-    	thisBin = h_mu_TRIGGER_BF_abseta_pt_ratio->FindBin( 30.001, searchEta );
+    	thisBin = h_mu_TRIGGER_BF_abseta_pt_ratio->FindBin( 25.001, searchEta );
     	nomval=h_mu_TRIGGER_BF_abseta_pt_ratio->GetBinContent( thisBin );
     }
 
@@ -353,7 +353,7 @@ float LeptonSFHelper::GetMuonSF(  float muonPt , float muonEta , int syst , std:
       //downval=downval*(1.0-0.005);
 
       if(nomval==0) {
-          thisBin = h_mu_TRIGGER_GH_abseta_pt_ratio->FindBin( 30.001, searchEta );
+          thisBin = h_mu_TRIGGER_GH_abseta_pt_ratio->FindBin( 25.001, searchEta );
           nomval=h_mu_TRIGGER_GH_abseta_pt_ratio->GetBinContent( thisBin );
       }
       
